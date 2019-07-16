@@ -41,7 +41,7 @@ public class CompareActivity extends AppCompatActivity {
     private Runnable delayToCalculate = new Runnable() {
         @Override
         public void run() {
-            List<Integer> distance = mTrajectoryView.getDistance();
+            List<Double> distance = mTrajectoryView.getDistance();
             int distance_sum = calcaulateData(distance);
             tv11.setText(distance_sum+"");
 
@@ -52,10 +52,10 @@ public class CompareActivity extends AppCompatActivity {
         }
     };
 
-    private int calcaulateData(List<Integer> list){
+    private int calcaulateData(List<Double> list){
         int sum = 0;
-        for(int l : list){
-            sum += Math.abs(l);
+        for(double l : list){
+            sum += Math.abs((int) l);
         }
         return sum;
     }

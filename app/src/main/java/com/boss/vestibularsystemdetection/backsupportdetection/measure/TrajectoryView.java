@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.boss.vestibularsystemdetection.backsupportdetection.Tool.Arith;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.IOTool;
 
 import java.util.ArrayList;
@@ -43,30 +44,30 @@ public class TrajectoryView extends SurfaceView implements SurfaceHolder.Callbac
         this.path = path;
     }
 
-    private List<Integer> distance_Y, distance_Z;
+    private List<Double> distance_Y, distance_Z;
     private void getdata(){
 //        IOTool mIOTool = new IOTool("BackDetectionData/2019年07月14號 上午02:14:55");
         IOTool mIOTool = new IOTool(path);
-        int ave_Y = Integer.parseInt((String) mIOTool.readFile("average_Y.xml").get(0));
-        List axis_Y = mIOTool.readFile("axis_Y.xml");
-//        int ave_Z = Integer.parseInt((String) mIOTool.readFile("average_Z.xml").get(0));
-//        List axis_Z = mIOTool.readFile("axis_Z.xml");
+        float ave_Y = Float.parseFloat(mIOTool.readFile("average_Y.xml").get(0));
+        List<String> axis_Y = mIOTool.readFile("axis_Y.xml");
 
         distance_Y = calculateDistance(axis_Y, ave_Y);
-//        distance_Z = calculateDistance(axis_Z, ave_Z);
     }
 
-    public List<Integer> getDistance(){
+    public List<Double> getDistance(){
         return distance_Y;
     }
 
-    private List<Integer> calculateDistance(List list, int ave){
-        List<Integer> distance = new ArrayList<Integer>();
+    private List<Double> calculateDistance(List<String> list, float ave_angle){
+        List<Double> distance = new ArrayList<Double>();
+
         for(int i=0; i<list.size(); i++){
-            double sensor_angle = Math.toDegrees(Float.parseFloat((String) list.get(i)));
-            int angle = (180 - ((int)sensor_angle  - ave)) / 2;
-            double dis = arm_length * Math.cos(Math.toRadians(angle)) * 2;
-            distance.add((int)dis);
+            float sensor_angle = Float.parseFloat(list.get(i));
+            double sub_angle = Arith.sub(sensor_angle, ave_angle);
+            double triangle_angle = Math.toRadians(180);
+            double angle = Arith.div(Arith.sub(triangle_angle, sub_angle), 2);
+            double dis = Arith.mul(arm_length, Math.cos(angle), 2);
+            distance.add(dis);
         }
         return distance;
     }
@@ -109,11 +110,11 @@ public class TrajectoryView extends SurfaceView implements SurfaceHolder.Callbac
             if(distance_Y.size() != 0) {
                 Path mPath = new Path();
 //                mPath.moveTo(mWidth / 2 + distance_Z.get(0).intValue(),  + distance_Y.get(0).intValue());
-                mPath.moveTo(mWidth / 2, mHeight / 2 + distance_Y.get(0).intValue());
+                mPath.moveTo(mWidth / 2, mHeight / 2 + distance_Y.get(0).floatValue());
                 for(int i=0; i<distance_Y.size(); i++) {
 //                    float pointX = mWidth/2 + distance_Z.get(i).intValue();
                     float pointX = mWidth/2;
-                    float pointY = mHeight / 2 + distance_Y.get(i).intValue();
+                    float pointY = mHeight / 2 + distance_Y.get(i).floatValue();
                     mPath.lineTo(pointX, pointY);
                 }
                 mCanvas.drawPath(mPath, mPaint);

@@ -96,7 +96,7 @@ public class IOTool {
     }
 
     //取得數據
-    public List readFile(String name){
+    public List<String> readFile(String name){
         FileReader fr = null;
         BufferedReader br = null;
         String file_path = dirPath + "/" + name;
