@@ -45,6 +45,7 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
         magneticSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         accelerometerSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
+        mHandler = new Handler();
         init();
     }
 
@@ -54,6 +55,7 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
     TextView tv3, tv4, tv5;
     ImageView imgView;
     String path;
+    String runnable_name = "";
 
     private void init(){
         values = new float[3];
@@ -88,11 +90,24 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
     private void getValues(){
         SensorManager.getRotationMatrix(r, null, gravity, geomagnetic);
         SensorManager.getOrientation(r, values);
-        if(!isPause)
-            checkBalance();
+        if(!isPause) {
+            isPause = true;
+            runnable_name = "delayToStart";
+            mHandler.postDelayed(delayToStart, 2000);
+//            checkBalance();
+        }
         if(isRecordStart)
             addValues();
     }
+
+    private Runnable delayToStart = new Runnable() {
+        @Override
+        public void run() {
+            runnable_name = "";
+            isRecordStart = true;
+            setCountDown(3000);
+        }
+    };
 
     private void addValues(){
         list_AxisZ.add(values[0]);
@@ -100,33 +115,34 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
         list_AxisY.add(values[2]);
     }
 
-    int roll_temp, roll = 0;
-    private boolean checkValue(){
-        roll_temp = roll;
-        roll = (int)Math.toDegrees(values[2]);
-        if(Math.abs(roll - roll_temp) <= 15)
-            return true;
-        else
-            return false;
-    }
-
-    private void checkBalance(){
-        timesOfCheck.add(checkValue());
-
-        int times = 0;
-        for(boolean check : timesOfCheck){
-            if(check == true)
-                times++;
-            else
-                times = 0;
-
-            if(times >= 30) {
-                isPause = true;
-                isRecordStart = true;
-                setCountDown(3500);
-            }
-        }
-    }
+    //檢查角度是否多次連續小於一定角度，但因為較新的手機執行數度太快暫時不使用
+//    int roll_temp, roll = 0;
+//    private boolean checkValue(){
+//        roll_temp = roll;
+//        roll = (int)Math.toDegrees(values[2]);
+//        if(Math.abs(roll - roll_temp) <= 15)
+//            return true;
+//        else
+//            return false;
+//    }
+//
+//    private void checkBalance(){
+//        timesOfCheck.add(checkValue());
+//
+//        int times = 0;
+//        for(boolean check : timesOfCheck){
+//            if(check == true)
+//                times++;
+//            else
+//                times = 0;
+//
+//            if(times >= 30) {
+//                isPause = true;
+//                isRecordStart = true;
+//                setCountDown(3500);
+//            }
+//        }
+//    }
 
     MediaPlayer mMediaPlayer;
     long curTime;
@@ -175,7 +191,7 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
         mIOTool.writeFile("average_X.xml", ave_X + "");
         mIOTool.writeFile("average_Y.xml", ave_Y + "");
         mIOTool.writeFile("average_Z.xml", ave_Z + "");
-        mHandler = new Handler();
+        runnable_name = "delayToTemp";
         mHandler.postDelayed(delayToTemp, 2000);
     }
 
@@ -190,8 +206,10 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
     private Runnable delayToTemp = new Runnable() {
         @Override
         public void run() {
+            runnable_name = "";
             tv4.setVisibility(View.INVISIBLE);
             tv3.setText("保持不動，\n嗶聲後開始測量");
+            runnable_name = "delayToMeasure";
             mHandler.postDelayed(delayToMeasure, 2000);
         }
     };
@@ -199,6 +217,7 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
     private Runnable delayToMeasure = new Runnable() {
         @Override
         public void run() {
+            runnable_name = "";
             imgView.setVisibility(View.INVISIBLE);
             tv5.setVisibility(View.VISIBLE);
             tv3.setText("開始測量");
@@ -208,7 +227,7 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
             list_AxisZ.clear();
             isSecondMeasure = true;
             isRecordStart = true;
-            setCountDown(5500);
+            setCountDown(5000);
         }
     };
 
@@ -332,8 +351,29 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
         super.onResume();
         if(isOnPause && !isOnFinish)
             setCountDown(curTime);
+
+        //防止Handler onPause後app停擺
+        setHandlerNotYetFinished();
         mSensorManager.registerListener(this, magneticSensor, 100 * 1000);
         mSensorManager.registerListener(this, accelerometerSensor, 100 * 1000);
+    }
+
+    private void setHandlerNotYetFinished(){
+        mHandler = new Handler();
+
+        switch (runnable_name){
+            case "delayToStart":
+                mHandler.postDelayed(delayToStart, 2000);
+                break;
+            case "delayToTemp":
+                mHandler.postDelayed(delayToTemp, 2000);
+                break;
+            case "delayToMeasure":
+                mHandler.postDelayed(delayToMeasure, 2000);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -343,6 +383,10 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
             mCountDownTimer.cancel();
             isOnPause = true;
         }
+
+        if(mHandler != null)
+            mHandler.removeCallbacksAndMessages(null);
+
         mSensorManager.unregisterListener(this);
     }
 
@@ -353,9 +397,6 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
             mMediaPlayer.release();
             mMediaPlayer = null;
         }
-
-        if(mHandler != null)
-            mHandler.removeCallbacksAndMessages(null);
     }
 
     public void back_onClick(View v){
