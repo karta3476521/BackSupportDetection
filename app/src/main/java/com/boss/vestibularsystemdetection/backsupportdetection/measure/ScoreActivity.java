@@ -45,7 +45,6 @@ public class ScoreActivity extends AppCompatActivity {
     private int calcaulateData(List<Double> list){
         int sum = 0;
         for(double l : list){
-            System.err.println(l);
             sum += Math.abs((int)l);
         }
         return sum;

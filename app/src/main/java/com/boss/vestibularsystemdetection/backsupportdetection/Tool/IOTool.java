@@ -38,7 +38,12 @@ public class IOTool {
     }
 
     public List<String> getFileList(){
-        List<String> list = Arrays.asList(dirPath.list());
+        MyComparator mMyComparator = new MyComparator();
+        File[] files = dirPath.listFiles();
+        Arrays.sort(files, mMyComparator);
+        List<String> list = new ArrayList<String>();
+        for(File file : files)
+            list.add(file.getName());
         return list;
     }
 
