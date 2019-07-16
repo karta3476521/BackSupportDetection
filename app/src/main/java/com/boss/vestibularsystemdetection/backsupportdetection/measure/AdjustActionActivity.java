@@ -183,9 +183,9 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
 
     private void dismiss(){
         tv4.setVisibility(View.VISIBLE);
-        int ave_X = average(list_AxisX);
-        int ave_Y = average(list_AxisY);
-        int ave_Z = average(list_AxisZ);
+        float ave_X = average(list_AxisX);
+        float ave_Y = average(list_AxisY);
+        float ave_Z = average(list_AxisZ);
         path = "BackDetectionData/" + MyUtils.getDate();
         mIOTool = new IOTool(path);
         mIOTool.writeFile("average_X.xml", ave_X + "");
@@ -195,10 +195,10 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
         mHandler.postDelayed(delayToTemp, 2000);
     }
 
-    private int average(List list){
-        int sum = 0;
-        for(Object o : list){
-            sum += (int)Math.toDegrees((float) o);
+    private float average(List<Float> list){
+        float sum = 0;
+        for(float o : list){
+            sum += o;
         }
         return sum / list.size();
     }
