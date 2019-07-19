@@ -23,7 +23,8 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void account_onClick(View v){
-
+        intent = new Intent(SettingActivity.this, LoginActivity.class);
+        startActivity(intent);
     }
 
     public void history_onClick(View v){
