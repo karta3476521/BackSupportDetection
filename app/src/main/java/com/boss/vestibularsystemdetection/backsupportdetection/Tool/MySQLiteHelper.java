@@ -15,12 +15,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE registers_tb (" +
-                " _id varchar(36) NOT NULL DEFAULT ''," +
-                " email varchar(36) NOT NULL DEFAULT ''," +
-                " password varchar(36) NOT NULL DEFAULT ''," +
-                " name varchar(36) NOT NULL DEFAULT ''," +
-                " age int(3) NOT NULL DEFAULT '0'," +
-                " PRIMARY KEY (_id)" +
+                " _id integer primary key autoincrement," +
+                " email varchar(36) NOT NULL," +
+                " password varchar(36) NOT NULL," +
+                " name varchar(36) NOT NULL," +
+                " age integer NOT NULL DEFAULT 0" +
                 ")");
     }
 
@@ -28,7 +27,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     //newVersion 必須大於oldVersion
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("drop table if exists books");
+        db.execSQL("drop table if exists registers_tb");
         //MyHelper的內容有改變，需要在onCreate()一次砍掉重建
         onCreate(db);
     }
