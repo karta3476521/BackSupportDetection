@@ -22,26 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.boss.vestibularsystemdetection.backsupportdetection.measure.TrajectoryView
-        android:id="@+id/trajectoryView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:background="@drawable/custom_view_shape"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.boss.vestibularsystemdetection.backsupportdetection.measure.TrajectoryView
-        android:id="@+id/trajectoryView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/custom_view_shape"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <ImageButton
         android:id="@+id/imageButton3"
         android:layout_width="40dp"
@@ -54,50 +34,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:textSize="50sp"
-        app:layout_constraintBottom_toBottomOf="@+id/trajectoryView2"
-        app:layout_constraintEnd_toEndOf="@+id/trajectoryView2" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager2"
+        android:layout_width="290dp"
+        android:layout_height="430dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
-    <TextView
-        android:id="@+id/textView12"
+    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+        android:id="@+id/dots_indicator2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:textSize="50sp"
-        app:layout_constraintBottom_toBottomOf="@+id/trajectoryView3"
-        app:layout_constraintEnd_toEndOf="@+id/trajectoryView3" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="分數"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="@+id/trajectoryView2"
-        app:layout_constraintEnd_toStartOf="@+id/textView11" />
-
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="分數"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="@+id/trajectoryView3"
-        app:layout_constraintEnd_toStartOf="@+id/textView12" />
+        android:layout_marginTop="8dp"
+        app:dotsColor="@android:color/holo_blue_bright"
+        app:dotsCornerRadius="8dp"
+        app:dotsSize="16dp"
+        app:dotsSpacing="4dp"
+        app:dotsWidthFactor="2.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewPager2"
+        app:progressMode="true"
+        app:selectedDotColor="@android:color/holo_blue_bright" />
 
 </android.support.constraint.ConstraintLayout>

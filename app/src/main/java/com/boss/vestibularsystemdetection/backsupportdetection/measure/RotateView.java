@@ -17,15 +17,15 @@ import com.boss.vestibularsystemdetection.backsupportdetection.Tool.IOTool;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrajectoryView extends SurfaceView implements SurfaceHolder.Callback, Runnable{
+public class RotateView extends SurfaceView implements SurfaceHolder.Callback, Runnable{
     SurfaceHolder mSurfaceHolder;
     Canvas mCanvas;
     private int mWidth;
     private int mHeight;
-    private int arm_length = 100;   //cm
     private String path;
+    private String rotateType;
 
-    public TrajectoryView(Context context, AttributeSet attrs) {
+    public RotateView(Context context, AttributeSet attrs){
         super(context, attrs);
         initView();
     }
@@ -44,9 +44,13 @@ public class TrajectoryView extends SurfaceView implements SurfaceHolder.Callbac
         this.path = path;
     }
 
-    private List<Double> distance_X, distance_Y, distance_Z;
+    public void setRotateType(String rotateType){
+        this.rotateType = rotateType;
+    }
+
+    private List<Double> angle_X, angle_Y, angle_Z;
     private void getdata(){
-//        IOTool mIOTool = new IOTool("BackDetectionData/2019年07月14號 上午02:14:55");
+//        IOTool mIOTool = new IOTool("BackDetectionData/2019年07月20號 下午04:23:45");
         IOTool mIOTool = new IOTool(path);
         float ave_X = Float.parseFloat(mIOTool.readFile("average_X.xml").get(0));
         float ave_Y = Float.parseFloat(mIOTool.readFile("average_Y.xml").get(0));
@@ -55,27 +59,29 @@ public class TrajectoryView extends SurfaceView implements SurfaceHolder.Callbac
         List<String> axis_Y = mIOTool.readFile("axis_Y.xml");
         List<String> axis_Z = mIOTool.readFile("axis_Z.xml");
 
-        distance_X = calculateDistance(axis_X, ave_X);
-        distance_Y = calculateDistance(axis_Y, ave_Y);
-        distance_Z = calculateDistance(axis_Z, ave_Z);
+        angle_X = calculateAngle(axis_X, ave_X);
+        angle_Y = calculateAngle(axis_Y, ave_Y);
+        angle_Z = calculateAngle(axis_Z, ave_Z);
     }
 
-    public List<Double> getDistance(){
-        return distance_Y;
+    public List<List<Double>> getAngle(){
+        List<List<Double>> angle = new ArrayList<List<Double>>();
+        angle.add(angle_X);
+        angle.add(angle_Y);
+        angle.add(angle_Z);
+
+        return angle;
     }
 
-    private List<Double> calculateDistance(List<String> list, float ave_angle){
-        List<Double> distance = new ArrayList<Double>();
+    private List<Double> calculateAngle(List<String> list, float ave_angle){
+        List<Double> angle = new ArrayList<Double>();
 
         for(int i=0; i<list.size(); i++){
             float sensor_angle = Float.parseFloat(list.get(i));
             double sub_angle = Arith.sub(sensor_angle, ave_angle);
-            double triangle_angle = Math.toRadians(180);
-            double angle = Arith.div(Arith.sub(triangle_angle, sub_angle), 2);
-            double dis = Arith.mul(arm_length, Math.cos(angle), 2);
-            distance.add(dis);
+            angle.add(Math.toDegrees(sub_angle));
         }
-        return distance;
+        return angle;
     }
 
     @Override
@@ -113,31 +119,54 @@ public class TrajectoryView extends SurfaceView implements SurfaceHolder.Callbac
             mPaint.setColor(Color.GRAY);
 
             //draw data
-            if(distance_Y.size() != 0) {
-                Path mPath = new Path();
-//                mPath.moveTo(mWidth / 2 + distance_Z.get(0).intValue(),  + distance_Y.get(0).intValue());
-                mPath.moveTo(mWidth / 2, mHeight / 2 + distance_Y.get(0).floatValue());
-                for(int i=0; i<distance_Y.size(); i++) {
-//                    float pointX = mWidth/2 + distance_Z.get(i).intValue();
-                    float pointX = mWidth/2;
-                    float pointY = mHeight / 2 + distance_Y.get(i).floatValue();
-                    mPath.lineTo(pointX, pointY);
-                }
-                mCanvas.drawPath(mPath, mPaint);
-            }
+            DrawData(mCanvas, mPaint);
 
             //View 的中央
             mPaint.setColor(Color.RED); //顏色
             mPaint.setStrokeWidth(20);
             mCanvas.drawPoint(mWidth/2, mHeight/2, mPaint);
         }catch (Exception e){
-
+            System.err.println(e.getMessage());
         }finally {
             if (mCanvas != null){
                 //釋放canvas並提交畫布
                 mSurfaceHolder.unlockCanvasAndPost(mCanvas);
             }
         }
+    }
+
+    private void DrawData(Canvas mCanvas, Paint mPaint) throws Exception {
+        Path mPath = new Path();
+
+        if(rotateType == "xy") {
+            mPath.moveTo(mWidth / 2 + angle_X.get(0).floatValue(), mHeight / 2 + angle_Y.get(0).floatValue());
+
+            for (int i = 0; i < angle_X.size(); i++) {
+                float pointX = mWidth / 2 + angle_X.get(i).floatValue();
+                float pointY = mHeight / 2 + angle_Y.get(i).floatValue();
+                mPath.lineTo(pointX, pointY);
+            }
+        }else if(rotateType == "xz"){
+
+            mPath.moveTo(mWidth / 2 + angle_X.get(0).floatValue(), mHeight / 2 + angle_Z.get(0).floatValue());
+
+            for (int i = 0; i < angle_X.size(); i++) {
+                float pointX = mWidth / 2 + angle_X.get(i).floatValue();
+                float pointY = mHeight / 2 + angle_Z.get(i).floatValue();
+                mPath.lineTo(pointX, pointY);
+            }
+        }else if(rotateType == "yz"){
+            mPath.moveTo(mWidth / 2 + angle_Y.get(0).floatValue(), mHeight / 2 + angle_Z.get(0).floatValue());
+
+            for (int i = 0; i < angle_Y.size(); i++) {
+                float pointX = mWidth / 2 + angle_Y.get(i).floatValue();
+                float pointY = mHeight / 2 + angle_Z.get(i).floatValue();
+                mPath.lineTo(pointX, pointY);
+            }
+        }else
+            throw new Exception("send error Rotatetype");
+
+        mCanvas.drawPath(mPath, mPaint);
     }
 
     @Override
@@ -156,13 +185,13 @@ public class TrajectoryView extends SurfaceView implements SurfaceHolder.Callbac
         int hSpecSize = MeasureSpec.getSize(heightMeasureSpec);
 
         if (wSpecMode == MeasureSpec.AT_MOST && hSpecMode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(wSpecSize*4/5, hSpecSize*2/5);
-//            setMeasuredDimension(wSpecSize, hSpecSize);
+            System.err.println("1");
+//            setMeasuredDimension(wSpecSize*4/5, hSpecSize*2/5);
+            setMeasuredDimension(wSpecSize, hSpecSize);
         } else if (wSpecMode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(300, hSpecSize/2);
+            setMeasuredDimension(wSpecSize, hSpecSize);
         } else if (hSpecMode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(wSpecSize-80, 300);
+            setMeasuredDimension(300, hSpecSize);
         }
     }
-
 }
