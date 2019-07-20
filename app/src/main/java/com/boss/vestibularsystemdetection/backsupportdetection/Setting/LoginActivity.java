@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.boss.vestibularsystemdetection.backsupportdetection.R;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.MySQLiteHelper;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.MyUtils;
+import com.boss.vestibularsystemdetection.backsupportdetection.Tool.ProcessControl;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.UserTool.UserManage;
 
 public class LoginActivity extends AppCompatActivity {
@@ -57,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login_onClick(View v){
         if(checkEditText(edt2) && checkEditText(edt3)){
-            String[] columns = {"_id", "email", "password", "name", "age"};
+            String[] columns = {"email", "password", "name", "age"};
 
             //查詢database
             String qry = "email='" + edt2.getText().toString().replace(" ", "") + "'";
@@ -72,9 +73,13 @@ public class LoginActivity extends AppCompatActivity {
                 if(edt3.getText().toString().replace(" ", "").equals(password)) {
                     UserManage.setUserEmail(edt2.getText().toString().replace(" ", ""));
                     Toast.makeText(this, "登入成功", Toast.LENGTH_SHORT).show();
-                    //another intent
-                    intent = new Intent(LoginActivity.this, AccoutManageActivity.class);
-                    startActivity(intent);
+                    if(ProcessControl.getProcessStatus() == "Second")
+                        finish();
+                    else {
+                        intent = new Intent(LoginActivity.this, AccoutManageActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 }else {
                     Toast.makeText(this, "密碼錯誤，請重新輸入密碼", Toast.LENGTH_SHORT).show();
                     edt3.setText("");
@@ -169,6 +174,7 @@ public class LoginActivity extends AppCompatActivity {
     public void register_onClick(View v){
         intent = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

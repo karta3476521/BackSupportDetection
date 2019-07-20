@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.boss.vestibularsystemdetection.backsupportdetection.R;
@@ -23,6 +24,7 @@ import com.boss.vestibularsystemdetection.backsupportdetection.Tool.UserTool.Use
 public class ModifyImformationActivity extends AppCompatActivity {
     EditText edt8, edt9, edt10, edt11;
     TextInputLayout edtLayout7, edtLayout8, edtLayout9, edtLayout10;
+    TextView tv19;
     ImageView imgVu6, imgVu7;
     SQLiteDatabase db;
     boolean isVisible = false;
@@ -43,6 +45,8 @@ public class ModifyImformationActivity extends AppCompatActivity {
         edtLayout10 = (TextInputLayout)findViewById(R.id.textInputLayout10);
         imgVu6 = (ImageView)findViewById(R.id.imageView6);
         imgVu7 = (ImageView)findViewById(R.id.imageView7);
+        tv19 = (TextView)findViewById(R.id.textView19);
+        tv19.setText(UserManage.getUserEmail());
     }
 
     //open database

@@ -21,8 +21,11 @@ import android.widget.TextView;
 
 import com.boss.vestibularsystemdetection.backsupportdetection.MainActivity;
 import com.boss.vestibularsystemdetection.backsupportdetection.R;
+import com.boss.vestibularsystemdetection.backsupportdetection.Setting.LoginActivity;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.IOTool;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.MyUtils;
+import com.boss.vestibularsystemdetection.backsupportdetection.Tool.ProcessControl;
+import com.boss.vestibularsystemdetection.backsupportdetection.Tool.UserTool.UserManage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +96,7 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
         if(!isPause) {
             isPause = true;
             runnable_name = "delayToStart";
-            mHandler.postDelayed(delayToStart, 2000);
+            mHandler.postDelayed(delayToStart, 3000);
 //            checkBalance();
         }
         if(isRecordStart)
@@ -269,8 +272,14 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
         bt2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                remeasure();
-                mAlertDialog.cancel();
+                ProcessControl.setProcess("Second");
+                if(UserManage.getUserEmail().length() > 0) {
+                    remeasure();
+                    mAlertDialog.cancel();
+                }else{
+                    Intent intent = new Intent(AdjustActionActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 

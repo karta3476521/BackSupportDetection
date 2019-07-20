@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String databaseName = "Spring_db";
-    private static final int version = 1;
+    private static final int version = 2;
 
     public MySQLiteHelper(Context context) {
         super(context, databaseName, null, version);
@@ -14,12 +14,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE registers_tb (" +
-                " _id integer primary key autoincrement," +
-                " email varchar(36) NOT NULL," +
+        db.execSQL("CREATE TABLE IF NOT EXISTS registers_tb (" +
+                " email varchar(36) PRIMARY KEY NOT NULL," +
                 " password varchar(36) NOT NULL," +
                 " name varchar(36) NOT NULL," +
-                " age integer NOT NULL DEFAULT 0" +
+                " age integer NOT NULL" +
                 ")");
     }
 

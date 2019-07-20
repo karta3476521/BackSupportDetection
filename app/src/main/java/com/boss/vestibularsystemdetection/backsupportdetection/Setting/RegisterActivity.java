@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.boss.vestibularsystemdetection.backsupportdetection.R;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.MySQLiteHelper;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.MyUtils;
+import com.boss.vestibularsystemdetection.backsupportdetection.Tool.ProcessControl;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.UserTool.UserManage;
 
 public class RegisterActivity extends AppCompatActivity{
@@ -27,6 +28,7 @@ public class RegisterActivity extends AppCompatActivity{
     TextInputLayout edtLayout3, edtLayout4, edtLayout5, edtLayout6;
     ImageView imgVu4;
     boolean isVisible = false;
+    static final String table = "registers_tb";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class RegisterActivity extends AppCompatActivity{
         //getWritableDatabase 可以讀寫
         //getReadableDatabase 唯讀
         db = dbHelper.getReadableDatabase();
+        System.err.println(" 資料庫是否開啟"+db.isOpen()+"，版本"+db.getVersion());
     }
 
     //close database
@@ -74,14 +77,19 @@ public class RegisterActivity extends AppCompatActivity{
             mContentValues.put("name", edt6.getText().toString().trim());
             mContentValues.put("age", age);
             //插入
-            long count = db.insert("registers_tb", null, mContentValues);
+            long count = db.insert(table, null, mContentValues);
 
             if(count > 0) {
                 Toast.makeText(this, "註冊成功", Toast.LENGTH_SHORT).show();
                 UserManage.setUserEmail(edt4.getText().toString().replace(" ", ""));
-                //another intent
-                Intent intent = new Intent(RegisterActivity.this, AccoutManageActivity.class);
-                startActivity(intent);
+
+                if(ProcessControl.getProcessStatus() == "Second")
+                    finish();
+                else {
+                    Intent intent = new Intent(RegisterActivity.this, AccoutManageActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }else
                 Toast.makeText(this, "註冊失敗", Toast.LENGTH_SHORT).show();
         }else
