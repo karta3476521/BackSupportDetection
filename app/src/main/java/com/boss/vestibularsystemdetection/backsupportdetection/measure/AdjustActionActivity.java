@@ -37,6 +37,7 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
     SensorManager mSensorManager;
     Sensor magneticSensor, accelerometerSensor;
     IOTool mIOTool;
+    TextView tv39;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,7 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
         tv3 = (TextView)findViewById(R.id.textView3);
         tv4 = (TextView)findViewById(R.id.textView4);
         tv5 = (TextView)findViewById(R.id.textView5);
+        tv39 = (TextView)findViewById(R.id.textView39);
         imgView = (ImageView) findViewById(R.id.imageView);
     }
 
@@ -93,6 +95,9 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
     private void getValues(){
         SensorManager.getRotationMatrix(r, null, gravity, geomagnetic);
         SensorManager.getOrientation(r, values);
+        tv39.setText("X："+(int)Math.toDegrees(values[1]) +
+                ", Y："+(int)Math.toDegrees(values[2]) +
+                ", Z："+(int)Math.toDegrees(values[0]));
         if(!isPause) {
             isPause = true;
             runnable_name = "delayToStart";

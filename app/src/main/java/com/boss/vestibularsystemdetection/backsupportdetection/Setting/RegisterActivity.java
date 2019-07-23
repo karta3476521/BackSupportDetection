@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.boss.vestibularsystemdetection.backsupportdetection.R;
+import com.boss.vestibularsystemdetection.backsupportdetection.Tool.IOTool;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.MySQLiteHelper;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.MyUtils;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.ProcessControl;
@@ -82,6 +83,8 @@ public class RegisterActivity extends AppCompatActivity{
             if(count > 0) {
                 Toast.makeText(this, "註冊成功", Toast.LENGTH_SHORT).show();
                 UserManage.setUserEmail(edt4.getText().toString().replace(" ", ""));
+                IOTool mIOTool = new IOTool("BackDetectionData");
+                mIOTool.writeFile("account.xml", edt4.getText().toString().replace(" ", ""));
 
                 if(ProcessControl.getProcessStatus() == "Second")
                     finish();

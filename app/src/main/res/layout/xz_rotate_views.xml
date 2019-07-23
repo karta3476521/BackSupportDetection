@@ -28,6 +28,51 @@
         app:layout_constraintBottom_toBottomOf="@+id/rotateView7"
         app:layout_constraintEnd_toEndOf="@+id/rotateView7" />
 
+    <com.boss.vestibularsystemdetection.backsupportdetection.measure.RotateView
+        android:id="@+id/rotateView6"
+        tools:visibility="visible"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:background="@drawable/custom_view_shape"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.boss.vestibularsystemdetection.backsupportdetection.measure.RotateView
+        android:id="@+id/rotateView7"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/custom_view_shape"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rotateView6" />
+
+    <TextView
+        android:id="@+id/textView32"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="xz"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/rotateView6"
+        app:layout_constraintTop_toTopOf="@+id/rotateView6" />
+
+    <TextView
+        android:id="@+id/textView33"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="xz"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/rotateView7"
+        app:layout_constraintTop_toTopOf="@+id/rotateView7" />
+
     <TextView
         android:id="@+id/textView24"
         android:layout_width="wrap_content"
@@ -51,25 +96,4 @@
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="@+id/rotateView7"
         app:layout_constraintEnd_toStartOf="@+id/textView23" />
-
-    <com.boss.vestibularsystemdetection.backsupportdetection.measure.RotateView
-        android:id="@+id/rotateView6"
-        tools:visibility="visible"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:background="@drawable/custom_view_shape"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.boss.vestibularsystemdetection.backsupportdetection.measure.RotateView
-        android:id="@+id/rotateView7"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/custom_view_shape"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rotateView6" />
 </android.support.constraint.ConstraintLayout>

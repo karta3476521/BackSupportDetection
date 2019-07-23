@@ -14,7 +14,10 @@ import android.widget.Toast;
 
 import com.boss.vestibularsystemdetection.backsupportdetection.Setting.SettingActivity;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.IOTool;
+import com.boss.vestibularsystemdetection.backsupportdetection.Tool.UserTool.UserManage;
 import com.boss.vestibularsystemdetection.backsupportdetection.measure.AdjustActionActivity;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     Intent intent;
@@ -32,6 +35,15 @@ public class MainActivity extends AppCompatActivity {
         getWritePermission();
         //創建目錄資料夾
         IOTool mIOTool = new IOTool("BackDetectionData");
+        List<String> fileNames = mIOTool.getFileList();
+        if(fileNames.contains("account.xml")) {
+            try {
+                String account = mIOTool.readFile("account.xml").get(0);
+                UserManage.setUserEmail(account);
+            }catch (IndexOutOfBoundsException ex){
+                System.err.println("no account login");
+            }
+        }
     }
 
     private void detectSensor(){

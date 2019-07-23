@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.boss.vestibularsystemdetection.backsupportdetection.R;
+import com.boss.vestibularsystemdetection.backsupportdetection.Tool.IOTool;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.MySQLiteHelper;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.MyUtils;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.ProcessControl;
@@ -72,6 +73,8 @@ public class LoginActivity extends AppCompatActivity {
                 String password = mCursor.getString(mCursor.getColumnIndex("password"));
                 if(edt3.getText().toString().replace(" ", "").equals(password)) {
                     UserManage.setUserEmail(edt2.getText().toString().replace(" ", ""));
+                    IOTool mIOTool = new IOTool("BackDetectionData");
+                    mIOTool.writeFile("account.xml", edt2.getText().toString().replace(" ", ""));
                     Toast.makeText(this, "登入成功", Toast.LENGTH_SHORT).show();
                     if(ProcessControl.getProcessStatus() == "Second")
                         finish();

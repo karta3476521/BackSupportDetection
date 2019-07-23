@@ -20,7 +20,7 @@ public class CompareActivity extends AppCompatActivity {
 //    TrajectoryView mTrajectoryView, mTrajectoryView_old;
     String old_path, path;
     Handler mHandler;
-    TextView tv11, tv12, tv13, tv14, tv22, tv23, tv24, tv25, tv26, tv27, tv28, tv29;
+    TextView tv13, tv14, tv22, tv23, tv26, tv27;
     RotateView xyView, xzView, yzView, xyView_old, xzView_old, yzView_old;
     DotsIndicator mDotsIndicator;
     ViewPager mViewPager;
@@ -70,10 +70,6 @@ public class CompareActivity extends AppCompatActivity {
     }
 
     private void setTvBringToFront(){
-        tv11 = (TextView)views.get(0).findViewById(R.id.textView11);
-        tv11.bringToFront();
-        tv12 = (TextView)views.get(0).findViewById(R.id.textView12);
-        tv12.bringToFront();
         tv13 = (TextView)views.get(0).findViewById(R.id.textView13);
         tv13.bringToFront();
         tv14 = (TextView)views.get(0).findViewById(R.id.textView14);
@@ -82,18 +78,10 @@ public class CompareActivity extends AppCompatActivity {
         tv22.bringToFront();
         tv23 = (TextView)views.get(1).findViewById(R.id.textView23);
         tv23.bringToFront();
-        tv24 = (TextView)views.get(1).findViewById(R.id.textView24);
-        tv24.bringToFront();
-        tv25 = (TextView)views.get(1).findViewById(R.id.textView25);
-        tv25.bringToFront();
         tv26 = (TextView)views.get(2).findViewById(R.id.textView26);
         tv26.bringToFront();
         tv27 = (TextView)views.get(2).findViewById(R.id.textView27);
         tv27.bringToFront();
-        tv28 = (TextView)views.get(2).findViewById(R.id.textView28);
-        tv28.bringToFront();
-        tv29 = (TextView)views.get(2).findViewById(R.id.textView29);
-        tv29.bringToFront();
     }
 
     private void setAtributes(){

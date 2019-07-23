@@ -42,8 +42,11 @@ public class IOTool {
         File[] files = dirPath.listFiles();
         Arrays.sort(files, mMyComparator);
         List<String> list = new ArrayList<String>();
-        for(File file : files)
-            list.add(file.getName());
+        for(File file : files) {
+            if(file.isDirectory())
+                if(file.list().length >= 6)
+                    list.add(file.getName());
+        }
         return list;
     }
 

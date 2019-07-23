@@ -15,8 +15,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Setting.ModifyImformationActivity"></activity>
-        <activity android:name=".Setting.AccoutManageActivity" />
+        <activity android:name=".Setting.ModifyImformationActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Setting.AccoutManageActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Setting.LoginActivity"
             android:configChanges="orientation"

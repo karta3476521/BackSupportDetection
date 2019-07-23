@@ -28,30 +28,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/rotateView5"
         app:layout_constraintEnd_toEndOf="@+id/rotateView5" />
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="分數"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="@+id/rotateView4"
-        app:layout_constraintEnd_toStartOf="@+id/textView13" />
-
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="分數"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="@+id/rotateView5"
-        app:layout_constraintEnd_toStartOf="@+id/textView14" />
-
     <com.boss.vestibularsystemdetection.backsupportdetection.measure.RotateView
         android:id="@+id/rotateView4"
         android:layout_width="0dp"
@@ -72,4 +48,52 @@
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rotateView4" />
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="xy"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/rotateView4"
+        app:layout_constraintTop_toTopOf="@+id/rotateView4" />
+
+    <TextView
+        android:id="@+id/textView31"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="xy"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/rotateView5"
+        app:layout_constraintTop_toTopOf="@+id/rotateView5" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="分數"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@+id/rotateView5"
+        app:layout_constraintEnd_toStartOf="@+id/textView14" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="分數"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@+id/rotateView4"
+        app:layout_constraintEnd_toStartOf="@+id/textView13" />
 </android.support.constraint.ConstraintLayout>
