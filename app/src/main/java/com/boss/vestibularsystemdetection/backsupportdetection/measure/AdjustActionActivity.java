@@ -21,11 +21,8 @@ import android.widget.TextView;
 
 import com.boss.vestibularsystemdetection.backsupportdetection.MainActivity;
 import com.boss.vestibularsystemdetection.backsupportdetection.R;
-import com.boss.vestibularsystemdetection.backsupportdetection.Setting.LoginActivity;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.IOTool;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.MyUtils;
-import com.boss.vestibularsystemdetection.backsupportdetection.Tool.ProcessControl;
-import com.boss.vestibularsystemdetection.backsupportdetection.Tool.UserTool.UserManage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -277,14 +274,16 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
         bt2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProcessControl.setProcess("Second");
-                if(UserManage.getUserEmail().length() > 0) {
-                    remeasure();
-                    mAlertDialog.cancel();
-                }else{
-                    Intent intent = new Intent(AdjustActionActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
+//                ProcessControl.setProcess("Second");
+                remeasure();
+                mAlertDialog.cancel();
+//                if(UserManage.getUserEmail().length() > 0) {
+//                    remeasure();
+//                    mAlertDialog.cancel();
+//                }else{
+//                    Intent intent = new Intent(AdjustActionActivity.this, LoginActivity.class);
+//                    startActivity(intent);
+//                }
             }
         });
 
@@ -368,8 +367,8 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
 
         //防止Handler onPause後app停擺
         setHandlerNotYetFinished();
-        mSensorManager.registerListener(this, magneticSensor, 100 * 1000);
-        mSensorManager.registerListener(this, accelerometerSensor, 100 * 1000);
+        mSensorManager.registerListener(this, magneticSensor, 10 * 1000);
+        mSensorManager.registerListener(this, accelerometerSensor, 10 * 1000);
     }
 
     private void setHandlerNotYetFinished(){

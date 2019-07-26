@@ -17,6 +17,7 @@ import com.boss.vestibularsystemdetection.backsupportdetection.Tool.IOTool;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.UserTool.UserManage;
 import com.boss.vestibularsystemdetection.backsupportdetection.measure.AdjustActionActivity;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         getWritePermission();
         //創建目錄資料夾
         IOTool mIOTool = new IOTool("BackDetectionData");
-        List<String> fileNames = mIOTool.getFileList();
+        List<String> fileNames = Arrays.asList(mIOTool.getNameList());
         if(fileNames.contains("account.xml")) {
             try {
                 String account = mIOTool.readFile("account.xml").get(0);

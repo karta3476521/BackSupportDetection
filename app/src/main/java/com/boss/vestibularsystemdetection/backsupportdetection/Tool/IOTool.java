@@ -50,6 +50,10 @@ public class IOTool {
         return list;
     }
 
+    public String[] getNameList(){
+        return dirPath.list();
+    }
+
     public void writeFile(String name, List data){
         FileWriter fw = null;
         BufferedWriter bw = null;
