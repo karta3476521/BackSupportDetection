@@ -60,10 +60,6 @@ public class TrajectoryView extends SurfaceView implements SurfaceHolder.Callbac
         distance_Z = calculateDistance(axis_Z, ave_Z);
     }
 
-    public List<Double> getDistance(){
-        return distance_Y;
-    }
-
     private List<Double> calculateDistance(List<String> list, float ave_angle){
         List<Double> distance = new ArrayList<Double>();
 

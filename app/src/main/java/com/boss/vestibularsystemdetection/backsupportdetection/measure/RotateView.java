@@ -76,11 +76,22 @@ public class RotateView extends SurfaceView implements SurfaceHolder.Callback, R
     private List<Double> calculateAngle(List<String> list, float ave_angle){
         List<Double> angle = new ArrayList<Double>();
 
-        for(int i=0; i<list.size(); i++){
-            float sensor_angle = Float.parseFloat(list.get(i));
-            double sub_angle = Arith.sub(sensor_angle, ave_angle);
+        float sensor_angle = Float.parseFloat(list.get(0));
+        double sub_angle = Arith.sub(sensor_angle, ave_angle);
+        angle.add(Math.toDegrees(sub_angle));
+
+        for(int i=1; i<list.size()-1; i++){
+            sensor_angle = Float.parseFloat(list.get(i));
+            double sensor_angle_next = Float.parseFloat(list.get(i+1));
+            sub_angle = Arith.sub(sensor_angle_next, sensor_angle);
             angle.add(Math.toDegrees(sub_angle));
         }
+
+//        for(int i=0; i<list.size(); i++){
+//            float sensor_angle = Float.parseFloat(list.get(i));
+//            double sub_angle = Arith.sub(sensor_angle, ave_angle);
+//            angle.add(Math.toDegrees(sub_angle));
+//        }
         return angle;
     }
 
@@ -185,7 +196,6 @@ public class RotateView extends SurfaceView implements SurfaceHolder.Callback, R
         int hSpecSize = MeasureSpec.getSize(heightMeasureSpec);
 
         if (wSpecMode == MeasureSpec.AT_MOST && hSpecMode == MeasureSpec.AT_MOST) {
-            System.err.println("1");
 //            setMeasuredDimension(wSpecSize*4/5, hSpecSize*2/5);
             setMeasuredDimension(wSpecSize, hSpecSize);
         } else if (wSpecMode == MeasureSpec.AT_MOST) {

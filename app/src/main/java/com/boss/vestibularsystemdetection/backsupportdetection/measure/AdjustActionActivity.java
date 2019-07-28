@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.boss.vestibularsystemdetection.backsupportdetection.MainActivity;
 import com.boss.vestibularsystemdetection.backsupportdetection.R;
+import com.boss.vestibularsystemdetection.backsupportdetection.Tool.Arith;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.IOTool;
 import com.boss.vestibularsystemdetection.backsupportdetection.Tool.MyUtils;
 
@@ -51,12 +52,13 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
     }
 
     List<Float> list_AxisX, list_AxisY, list_AxisZ;
-    List<Boolean> timesOfCheck;
+//    List<Boolean> timesOfCheck;
     float[] values, r, gravity, geomagnetic;
     TextView tv3, tv4, tv5;
     ImageView imgView;
     String path;
     String runnable_name = "";
+    float ave_X, ave_Y, ave_Z;
 
     private void init(){
         values = new float[3];
@@ -66,7 +68,7 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
         list_AxisX = new ArrayList<Float>();
         list_AxisY = new ArrayList<Float>();
         list_AxisZ = new ArrayList<Float>();
-        timesOfCheck = new ArrayList<Boolean>();
+//        timesOfCheck = new ArrayList<Boolean>();
         tv3 = (TextView)findViewById(R.id.textView3);
         tv4 = (TextView)findViewById(R.id.textView4);
         tv5 = (TextView)findViewById(R.id.textView5);
@@ -187,17 +189,46 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
     }
 
     private void dismiss(){
-        tv4.setVisibility(View.VISIBLE);
-        float ave_X = average(list_AxisX);
-        float ave_Y = average(list_AxisY);
-        float ave_Z = average(list_AxisZ);
-        path = "BackDetectionData/" + MyUtils.getDate();
-        mIOTool = new IOTool(path);
-        mIOTool.writeFile("average_X.xml", ave_X + "");
-        mIOTool.writeFile("average_Y.xml", ave_Y + "");
-        mIOTool.writeFile("average_Z.xml", ave_Z + "");
-        runnable_name = "delayToTemp";
-        mHandler.postDelayed(delayToTemp, 2000);
+        if(!isRemeasure) {
+            tv4.setVisibility(View.VISIBLE);
+            ave_X = average(list_AxisX);
+            ave_Y = average(list_AxisY);
+            ave_Z = average(list_AxisZ);
+            path = "BackDetectionData/" + MyUtils.getDate();
+            mIOTool = new IOTool(path);
+            mIOTool.writeFile("average_X.xml", ave_X + "");
+            mIOTool.writeFile("average_Y.xml", ave_Y + "");
+            mIOTool.writeFile("average_Z.xml", ave_Z + "");
+            runnable_name = "delayToTemp";
+            mHandler.postDelayed(delayToTemp, 2000);
+        }else {
+            float ave_X_plus = average(list_AxisX);
+            float ave_Y_plus = average(list_AxisY);
+            float ave_Z_plus = average(list_AxisZ);
+
+            if(isPosture_confirm(ave_X, ave_X_plus) && isPosture_confirm(ave_Y, ave_Y_plus) && isPosture_confirm(ave_Z, ave_Z_plus)){
+                tv4.setVisibility(View.VISIBLE);
+                path = "BackDetectionData/" + MyUtils.getDate();
+                mIOTool = new IOTool(path);
+                mIOTool.writeFile("average_X.xml", ave_X_plus + "");
+                mIOTool.writeFile("average_Y.xml", ave_Y_plus + "");
+                mIOTool.writeFile("average_Z.xml", ave_Z_plus + "");
+                runnable_name = "delayToTemp";
+                mHandler.postDelayed(delayToTemp, 2000);
+            }else {
+                list_AxisX.clear();
+                list_AxisY.clear();
+                list_AxisZ.clear();
+                isPause = false;
+            }
+        }
+    }
+
+    private boolean isPosture_confirm(float previous, float now){
+        if(Math.toDegrees(now) <= Arith.add(Math.toDegrees(previous), 10) && Math.toDegrees(now) >= Arith.sub(Math.toDegrees(previous), 10))
+            return true;
+        else
+            return false;
     }
 
     private float average(List<Float> list){
@@ -353,7 +384,7 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
         list_AxisZ.clear();
         old_path = path;
 
-        timesOfCheck.clear();
+//        timesOfCheck.clear();
         tv3.setText("嗨！請握著手機\n保持不動3秒");
         tv5.setVisibility(View.INVISIBLE);
         imgView.setVisibility(View.VISIBLE);
@@ -367,8 +398,8 @@ public class AdjustActionActivity extends AppCompatActivity implements SensorEve
 
         //防止Handler onPause後app停擺
         setHandlerNotYetFinished();
-        mSensorManager.registerListener(this, magneticSensor, 10 * 1000);
-        mSensorManager.registerListener(this, accelerometerSensor, 10 * 1000);
+        mSensorManager.registerListener(this, magneticSensor, 100 * 1000);
+        mSensorManager.registerListener(this, accelerometerSensor, 100 * 1000);
     }
 
     private void setHandlerNotYetFinished(){
