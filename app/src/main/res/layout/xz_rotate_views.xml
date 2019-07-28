@@ -28,7 +28,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/rotateView7"
         app:layout_constraintEnd_toEndOf="@+id/rotateView7" />
 
-    <com.boss.vestibularsystemdetection.backsupportdetection.measure.RotateView
+    <com.boss.greenpower.backsupportdetection.measure.RotateView
         android:id="@+id/rotateView6"
         tools:visibility="visible"
         android:layout_width="0dp"
@@ -38,7 +38,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.boss.vestibularsystemdetection.backsupportdetection.measure.RotateView
+    <com.boss.greenpower.backsupportdetection.measure.RotateView
         android:id="@+id/rotateView7"
         android:layout_width="0dp"
         android:layout_height="200dp"

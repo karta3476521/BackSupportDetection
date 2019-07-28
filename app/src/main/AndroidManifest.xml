@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.boss.vestibularsystemdetection.backsupportdetection">
+    package="com.boss.greenpower.backsupportdetection">
 
     <uses-feature android:name="android.hardware.sensor.accelerometer" />
     <uses-feature android:name="android.hardware.sensor.compass" />
@@ -15,43 +15,43 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Setting.ModifyImformationActivity"
+        <activity android:name="com.boss.greenpower.backsupportdetection.Setting.ModifyImformationActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
-        <activity android:name=".Setting.AccoutManageActivity"
+        <activity android:name="com.boss.greenpower.backsupportdetection.Setting.AccoutManageActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".Setting.LoginActivity"
+            android:name="com.boss.greenpower.backsupportdetection.Setting.LoginActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Setting.RegisterActivity"
+            android:name="com.boss.greenpower.backsupportdetection.Setting.RegisterActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Setting.HistoryActivity"
+            android:name="com.boss.greenpower.backsupportdetection.Setting.HistoryActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Setting.SettingActivity"
+            android:name="com.boss.greenpower.backsupportdetection.Setting.SettingActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".measure.CompareActivity"
+            android:name="com.boss.greenpower.backsupportdetection.measure.CompareActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".measure.ScoreActivity"
+            android:name="com.boss.greenpower.backsupportdetection.measure.ScoreActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".measure.AdjustActionActivity"
+            android:name="com.boss.greenpower.backsupportdetection.measure.AdjustActionActivity"
             android:configChanges="orientation"
             android:keepScreenOn="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.boss.greenpower.backsupportdetection.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <intent-filter>
